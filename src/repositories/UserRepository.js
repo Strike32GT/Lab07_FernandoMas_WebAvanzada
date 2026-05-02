@@ -14,8 +14,15 @@ class UserRepository {
         return User.findById(id).populate('roles').exec();
     }
 
-    async updatePassword(id, hashedPassword) {
-        return User.findByIdAndUpdate(id, { password: hashedPassword }, { new: true }).exec();
+    async updateById(id, userData) {
+        return User.findByIdAndUpdate(id, userData, {
+            new: true,
+            runValidators: true
+        }).populate('roles').exec();
+    }
+
+    async deleteById(id) {
+        return User.findByIdAndDelete(id).populate('roles').exec();
     }
 
     async getAll() {

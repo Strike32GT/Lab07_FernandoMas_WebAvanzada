@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="<%= typeof bodyClass !== 'undefined' ? bodyClass : '' %>">
+    <% if (typeof showNav !== 'undefined' && showNav) { %>
+    <nav class="nav-shell">
+        <div class="nav-wrapper container">
+            <a href="/" class="brand-logo">Auth App</a>
+            <ul class="right">
+                <li><a href="/dashboard/user">Dashboard</a></li>
+                <li><a href="/profile">Mi cuenta</a></li>
+                <li class="nav-avatar-item">
+                    <a href="/profile" class="nav-avatar-link" aria-label="Mi perfil">
+                        <img
+                            id="nav-avatar"
+                            class="nav-avatar"
+                            src=""
+                            alt="Avatar del usuario"
+                        >
+                    </a>
+                </li>
+                <li><a href="#" id="logout-link">Cerrar sesion</a></li>
+            </ul>
+        </div>
+    </nav>
+    <% } %>
+    <main class="page-shell">

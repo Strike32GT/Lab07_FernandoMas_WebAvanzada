@@ -1,0 +1,101 @@
+<%- include('partials/head', { title }) %>
+<section class="container">
+    <div class="section-header">
+        <div>
+            <span class="eyebrow">Dashboard admin</span>
+            <h3>Usuarios registrados</h3>
+        </div>
+        <div class="admin-actions-bar">
+            <a href="#user-form-modal" class="btn modal-trigger" id="create-user-button">Crear usuario</a>
+            <a href="/profile" class="btn">Mi cuenta</a>
+        </div>
+    </div>
+    <div class="card-panel">
+        <table class="highlight responsive-table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Roles</th>
+                    <th>Registro</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="users-table-body"></tbody>
+        </table>
+    </div>
+</section>
+
+<div id="user-modal" class="modal">
+    <div class="modal-content">
+        <h4>Detalle del usuario</h4>
+        <div id="user-modal-content"></div>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
+    </div>
+</div>
+
+<div id="user-form-modal" class="modal modal-fixed-footer">
+    <div class="modal-content">
+        <h4 id="user-form-title">Crear usuario</h4>
+        <form id="admin-user-form">
+            <input type="hidden" id="admin-user-id" name="id">
+            <div class="row">
+                <div class="input-field col s12 m6">
+                    <input id="admin-name" name="name" type="text" required>
+                    <label for="admin-name">Nombre</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <input id="admin-lastName" name="lastName" type="text" required>
+                    <label for="admin-lastName">Apellido</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <input id="admin-phoneNumber" name="phoneNumber" type="text" required>
+                    <label for="admin-phoneNumber">Telefono</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <input id="admin-birthdate" name="birthdate" type="date" required>
+                    <label class="active" for="admin-birthdate">Fecha de nacimiento</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <input id="admin-email" name="email" type="email" required>
+                    <label for="admin-email">Email</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <input id="admin-password" name="password" type="password">
+                    <label for="admin-password">Password</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <select id="admin-role" name="role">
+                        <option value="user" selected>User</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                    <label>Rol</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <input id="admin-url_profile" name="url_profile" type="url">
+                    <label for="admin-url_profile">URL de perfil</label>
+                </div>
+                <div class="input-field col s12">
+                    <input id="admin-adress" name="adress" type="text">
+                    <label for="admin-adress">Direccion</label>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect btn-flat">Cancelar</a>
+        <button class="btn" type="submit" form="admin-user-form">Guardar</button>
+    </div>
+</div>
+
+<script>
+    window.addEventListener('DOMContentLoaded', async () => {
+        await window.App.requireAuth({ roles: ['admin'] });
+        window.App.initModal();
+        window.App.bindAdminUserForm();
+        await window.App.loadAdminDashboard();
+    });
+</script>
+<%- include('partials/foot') %>

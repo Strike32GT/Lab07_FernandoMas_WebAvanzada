@@ -2,13 +2,32 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import userRepository from '../repositories/UserRepository.js';
 import roleRepository from '../repositories/RoleRepository.js';
+import { mapUser } from '../utils/userMapper.js';
+
+const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[#$%&*@]).{8,}$/;
 
 class AuthService {
 
-    async signUp({ email, password, name, roles = ['user'] }) {
+    async signUp({
+        email,
+        password,
+        name,
+        lastName,
+        phoneNumber,
+        birthdate,
+        url_profile = '',
+        adress = '',
+        roles = ['user']
+    }) {
         const existing = await userRepository.findByEmail(email);
         if (existing) {
             const err = new Error('El email ya se encuentra en uso');
+            err.status = 400;
+            throw err;
+        }
+
+        if (!passwordRegex.test(password)) {
+            const err = new Error('El password debe tener minimo 8 caracteres, 1 mayuscula, 1 digito y 1 caracter especial (# $ % & * @)');
             err.status = 400;
             throw err;
         }
@@ -25,13 +44,20 @@ class AuthService {
             roleDocs.push(roleDoc._id);
         }
 
-        const user = await userRepository.create({ email, password: hashed, name, roles: roleDocs });
+        const user = await userRepository.create({
+            email,
+            password: hashed,
+            name,
+            lastName,
+            phoneNumber,
+            birthdate,
+            url_profile,
+            adress,
+            roles: roleDocs
+        });
+        await user.populate('roles');
 
-        return {
-                id: user._id,
-                email: user.email,
-                name: user.name
-            };
+        return mapUser(user);
     }
 
     async signIn({ email, password }) {
@@ -57,9 +83,11 @@ class AuthService {
                 expiresIn: process.env.JWT_EXPIRES_IN || '1h' 
             }
         );
-        // console.log("Verify:", jwt.verify(token, process.env.JWT_SECRET));
 
-        return { token };
+        return {
+            token,
+            user: mapUser(user)
+        };
     }
 }
 

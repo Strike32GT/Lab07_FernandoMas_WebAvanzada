@@ -1,0 +1,20 @@
+<%- include('partials/head', { title }) %>
+<section class="container">
+    <div class="section-header">
+        <div>
+            <span class="eyebrow">Dashboard user</span>
+            <h3>Bienvenido, aqui estan tus datos</h3>
+        </div>
+        <a href="/profile" class="btn">Editar perfil</a>
+    </div>
+    <div class="card-panel dashboard-panel">
+        <div id="user-dashboard-content" class="user-summary"></div>
+    </div>
+</section>
+<script>
+    window.addEventListener('DOMContentLoaded', async () => {
+        await window.App.requireAuth({ roles: ['user', 'admin'] });
+        await window.App.loadUserDashboard();
+    });
+</script>
+<%- include('partials/foot') %>

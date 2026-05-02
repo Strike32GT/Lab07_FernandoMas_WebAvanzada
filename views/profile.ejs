@@ -1,0 +1,61 @@
+<%- include('partials/head', { title }) %>
+<section class="container">
+    <div class="section-header">
+        <div>
+            <span class="eyebrow" id="profile-eyebrow">Mi cuenta</span>
+            <h3 id="profile-title">Perfil del usuario</h3>
+        </div>
+        <a href="/dashboard/user" class="btn-flat" id="profile-dashboard-link">Ir a dashboard</a>
+    </div>
+    <div class="card-panel">
+        <form id="profile-form">
+            <div class="row">
+                <div class="input-field col s12 m6">
+                    <input id="name" name="name" type="text" required>
+                    <label for="name">Nombre</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <input id="lastName" name="lastName" type="text" required>
+                    <label for="lastName">Apellido</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <input id="phoneNumber" name="phoneNumber" type="text" required>
+                    <label for="phoneNumber">Telefono</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <input id="birthdate" name="birthdate" type="date" required>
+                    <label class="active" for="birthdate">Fecha de nacimiento</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <input id="email" name="email" type="email" disabled>
+                    <label for="email">Email</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <input id="age" name="age" type="text" disabled>
+                    <label for="age">Edad</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <input id="rolesLabel" name="rolesLabel" type="text" disabled>
+                    <label for="rolesLabel">Rol</label>
+                </div>
+                <div class="input-field col s12">
+                    <input id="url_profile" name="url_profile" type="url">
+                    <label for="url_profile">URL de perfil</label>
+                </div>
+                <div class="input-field col s12">
+                    <input id="adress" name="adress" type="text">
+                    <label for="adress">Direccion</label>
+                </div>
+            </div>
+            <button class="btn waves-effect waves-light" type="submit">Guardar cambios</button>
+        </form>
+    </div>
+</section>
+<script>
+    window.addEventListener('DOMContentLoaded', async () => {
+        await window.App.requireAuth();
+        await window.App.loadProfile();
+        window.App.bindProfileForm();
+    });
+</script>
+<%- include('partials/foot') %>
